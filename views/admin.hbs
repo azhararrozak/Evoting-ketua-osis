@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Admin E-Voting</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+        <div class="sidebar-brand-icon">
+          <i class="fas fa-poll"></i>
+        </div>
+        <div class="sidebar-brand-text ml-2">E-Voting OSIS</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/admin">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Admin</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <li class="nav-item">
+        <a class="nav-link" href="/add_calon">
+          <i class="fas fa-plus-square"></i>
+          <span>Tambah Calon</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid mt-4">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Panel Admin</h1>
+            <a href="/logout" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-sign-out-alt"></i> Logout </a>
+          </div>
+          <div class="row">
+            <div class="col-md-7">
+              <!-- Pesan flash sesi -->
+              {{#each message}}
+              {{#if type}}
+                <div class="alert alert-success" role="alert">
+                  {{text}}
+                </div>
+              {{else}}
+                <div class="alert alert-danger" role="alert">
+                  {{text}}
+                </div>
+              {{/if}}
+              {{/each}}
+
+            </div>
+          </div>
+
+          <div class="row">
+            {{#if candite}}
+            {{#each candite}}
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1 text-center"><h6>ID CALON: {{id}}</h6></div>
+                      <img class="img-fluid mt-3 mb-4 shadow" style="width: 20rem; border-radius: 5px;" src="img/calon/{{foto}}" alt="">
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><h6 class="font-weight-bold">{{nama_calon}}</h6></div>
+                      <div class="row mt-3">
+                          {{!-- Dropdown menu --}}
+                          <div class="col-xl-6 col-md-5 col-6">
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Menu
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                  <a href="/hapus/{{id}}/{{foto}}" class="dropdown-item text-danger"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                  <a href="/edit/{{id}}" class="dropdown-item text-warning"><i class="fas fa-edit"></i> Edit</a>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1 text-center">Tidak Ada calon yang terdaftar</h6></div>
+                </div>
+              </div>
+            </div>
+            {{/if}}
+
+          </div>
+          <!-- Content Row -->
+          <div class="row">
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Grafik Garis Suara</h6> refresh data setiap 2 detik
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-7 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Perhitungan Suara</h6>
+                </div>
+                <!-- persentase  -->
+                <div class="card-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nama Calon</th>
+                          <th scope="col" class="text-center">ID</th>
+                          <th scope="col" class="text-center">Suara</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {{#each candite}}
+                      <tr>
+                         <td>{{nama_calon}}</td>
+                         <td class="text-center">ID CALON {{id}}</td>
+                         <td id="sr{{id}}" class="text-center">90</td>
+                      </tr>
+                      {{/each}}
+                      </tbody>
+                    </table>
+
+                    <p class="font-weight-bold text-right mr-4">Jumlah suara = <span id="total_suara"> </span></p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; DANILLDEV</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- socket script for live stream data-->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/socket.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+
+</body>
+
+</html>
